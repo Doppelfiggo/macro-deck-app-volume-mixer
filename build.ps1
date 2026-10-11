@@ -1,7 +1,7 @@
 # Builds the App Volume Mixer plugin into artifacts\*.macroDeckPlugin
 # Usage (PowerShell):  .\build.ps1
 $ErrorActionPreference = 'Stop'
-$cliVersion = '3.0.0-beta.15'
+$cliVersion = '3.0.0-beta.16'
 $toolsDir = Join-Path $env:USERPROFILE '.dotnet\tools'
 if ($env:PATH -notlike "*$toolsDir*") { $env:PATH = "$env:PATH;$toolsDir" }
 
