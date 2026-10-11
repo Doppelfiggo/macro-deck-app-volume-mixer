@@ -17,7 +17,5 @@ jobs:
       version: ${{ github.event.release.tag_name }}
       source: src/AppVolumeMixer
       changelog: ${{ github.event.release.body }}
-      # The plugin targets net10.0-windows (Windows Core Audio), so win-x64 is built on a Windows runner.
-      build-per-platform: true
       upload-artifact: true
       artifact-retention-days: 14

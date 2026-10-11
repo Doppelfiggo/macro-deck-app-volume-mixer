@@ -13,8 +13,13 @@ permissions:
 
 jobs:
   build:
-    name: Build, pack and validate
-    runs-on: windows-latest
+    name: Build, pack and validate (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # ubuntu-latest mirrors the Store release workflow, which cross-builds win-x64 on Linux.
+        os: [ windows-latest, ubuntu-latest ]
     steps:
       - uses: actions/checkout@v5
 
@@ -29,7 +34,7 @@ jobs:
         shell: pwsh
         run: |
           dotnet tool install --global MacroDeck.Plugin.Cli --prerelease
-          "$env:USERPROFILE\.dotnet\tools" | Out-File -FilePath $env:GITHUB_PATH -Append
+          Join-Path $HOME '.dotnet' 'tools' | Out-File -FilePath $env:GITHUB_PATH -Append
 
       - name: Pack and validate
         shell: pwsh
@@ -44,7 +49,7 @@ jobs:
       - name: Upload package
         uses: actions/upload-artifact@v7
         with:
-          name: app-volume-mixer
+          name: app-volume-mixer-${{ matrix.os }}
           path: ${{ env.ARTIFACT }}
           retention-days: 14
           if-no-files-found: error

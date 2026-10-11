@@ -4,6 +4,8 @@
         <OutputType>Exe</OutputType>
         <!-- Windows only: the plugin talks to the Windows Core Audio API (the Volume Mixer). -->
         <TargetFramework>net10.0-windows</TargetFramework>
+        <!-- Lets the Store's release workflow cross-build this Windows-only plugin on its Linux runner. -->
+        <EnableWindowsTargeting>true</EnableWindowsTargeting>
         <AssemblyName>AppVolumeMixer</AssemblyName>
         <RootNamespace>AppVolumeMixer</RootNamespace>
         <IsPackable>false</IsPackable>
