@@ -10,7 +10,7 @@
     "win-x64": { "executable": "runtimes/win-x64/AppVolumeMixer.dll", "runtime": { "kind": "FrameworkDependent", "dotnetVersion": "10.0" } }
   },
   "publisher": {
-    "name": "Yanick"
+    "name": "Doppelfiggo"
   },
   "license": "MIT",
   "repository": "https://github.com/Doppelfiggo/macro-deck-app-volume-mixer",
