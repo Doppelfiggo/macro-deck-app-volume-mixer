@@ -1,0 +1,23 @@
+name: Release
+
+# Publishing a GitHub release (tag vX.Y.Z) builds the plugin through the official Macro Deck workflow
+# and uploads it to the Creator Portal, which signs it after review. No secrets are needed.
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    uses: Macro-Deck-App/GitHub-Actions/.github/workflows/publish-plugin.yml@v1
+    permissions:
+      contents: read
+      id-token: write
+    with:
+      version: ${{ github.event.release.tag_name }}
+      source: src/AppVolumeMixer
+      changelog: ${{ github.event.release.body }}
+      # The plugin targets net10.0-windows (Windows Core Audio), so win-x64 is built on a Windows runner.
+      build-per-platform: true
+      upload-artifact: true
+      artifact-retention-days: 14

@@ -1,0 +1,50 @@
+name: CI
+
+# Builds, packs and validates the plugin on every push and pull request.
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build, pack and validate
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Build
+        run: dotnet build AppVolumeMixer.slnx -c Release
+
+      - name: Install the plugin CLI
+        shell: pwsh
+        run: |
+          dotnet tool install --global MacroDeck.Plugin.Cli --prerelease
+          "$env:USERPROFILE\.dotnet\tools" | Out-File -FilePath $env:GITHUB_PATH -Append
+
+      - name: Pack and validate
+        shell: pwsh
+        run: |
+          macrodeck-plugin build --source src/AppVolumeMixer --output "$env:RUNNER_TEMP/artifacts" --force
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $artifact = Get-ChildItem "$env:RUNNER_TEMP/artifacts" -Filter *.macroDeckPlugin | Select-Object -First 1
+          macrodeck-plugin validate --level publication --artifact $artifact.FullName
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          "ARTIFACT=$($artifact.FullName)" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Upload package
+        uses: actions/upload-artifact@v7
+        with:
+          name: app-volume-mixer
+          path: ${{ env.ARTIFACT }}
+          retention-days: 14
+          if-no-files-found: error

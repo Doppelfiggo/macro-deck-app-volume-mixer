@@ -1,0 +1,9 @@
+<Project>
+    <PropertyGroup>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <LangVersion>latest</LangVersion>
+        <!-- One knob for every Macro Deck package. Override with: dotnet build -p:MacroDeckSdkVersion=<version> -->
+        <MacroDeckSdkVersion Condition="'$(MacroDeckSdkVersion)' == ''">3.0.0-beta.15</MacroDeckSdkVersion>
+    </PropertyGroup>
+</Project>

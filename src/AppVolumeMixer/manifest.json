@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schemas.macro-deck.app/plugin-manifest-v1.schema.json",
+  "manifestVersion": 1,
+  "id": "com.yanick.app-volume-mixer",
+  "name": "App Volume Mixer",
+  "version": "1.0.6",
+  "description": "Slider widgets that control the volume of individual applications in the Windows Volume Mixer - chat, music and game audio at your fingertips.",
+  "icon": "Assets/icon.svg",
+  "entrypoints": {
+    "win-x64": { "executable": "runtimes/win-x64/AppVolumeMixer.dll", "runtime": { "kind": "FrameworkDependent", "dotnetVersion": "10.0" } }
+  },
+  "publisher": {
+    "name": "Yanick"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/Doppelfiggo/macro-deck-app-volume-mixer",
+  "homepage": "https://github.com/Doppelfiggo/macro-deck-app-volume-mixer#readme",
+  "additionalLinks": [
+    {
+      "type": "issues",
+      "url": "https://github.com/Doppelfiggo/macro-deck-app-volume-mixer/issues"
+    }
+  ],
+  "compatibility": {
+    "macroDeck": ">=3.0.0-0"
+  },
+  "permissions": ["host:widget-types"],
+  "ai": {
+    "interaction": false,
+    "generatedContent": false,
+    "generatedAssets": true
+  }
+}

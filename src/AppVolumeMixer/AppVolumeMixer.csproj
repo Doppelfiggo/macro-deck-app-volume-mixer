@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <!-- Windows only: the plugin talks to the Windows Core Audio API (the Volume Mixer). -->
+        <TargetFramework>net10.0-windows</TargetFramework>
+        <AssemblyName>AppVolumeMixer</AssemblyName>
+        <RootNamespace>AppVolumeMixer</RootNamespace>
+        <IsPackable>false</IsPackable>
+        <UserSecretsId>AppVolumeMixer-PluginDevelopment</UserSecretsId>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MacroDeck.Plugin.Analyzers" Version="$(MacroDeckSdkVersion)" PrivateAssets="all" />
+        <PackageReference Include="MacroDeck.Localization" Version="$(MacroDeckSdkVersion)" />
+        <PackageReference Include="MacroDeck.Plugin.Hosting" Version="$(MacroDeckSdkVersion)" />
+        <PackageReference Include="MacroDeck.Plugin.Serilog" Version="$(MacroDeckSdkVersion)" />
+        <PackageReference Include="MacroDeck.Sdk" Version="$(MacroDeckSdkVersion)" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="manifest.json" CopyToOutputDirectory="PreserveNewest" />
+        <Content Include="Assets\icon.svg" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+
+</Project>

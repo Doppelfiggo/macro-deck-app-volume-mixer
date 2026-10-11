@@ -1,0 +1,8 @@
+bin/
+obj/
+artifacts/
+.macrodeck-dev-state/
+.vs/
+.idea/
+*.user
+build.log

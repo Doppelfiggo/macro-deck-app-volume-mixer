@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Widgets.AppVolume.Name" xml:space="preserve">
+    <value>App-Lautstärke</value>
+  </data>
+  <data name="Widgets.AppVolume.Description" xml:space="preserve">
+    <value>Ein Schieberegler, der die Lautstärke einer einzelnen Anwendung im Windows-Lautstärkemixer steuert.</value>
+  </data>
+  <data name="Widgets.AppVolume.SampleLabel" xml:space="preserve">
+    <value>Musik</value>
+  </data>
+  <data name="Widgets.AppVolume.SystemSounds" xml:space="preserve">
+    <value>Systemsounds</value>
+  </data>
+  <data name="Widgets.AppVolume.NotRunning" xml:space="preserve">
+    <value>Läuft nicht</value>
+  </data>
+  <data name="Widgets.AppVolume.Muted" xml:space="preserve">
+    <value>Stumm</value>
+  </data>
+  <data name="Widgets.AppVolume.PickApp" xml:space="preserve">
+    <value>App auswählen</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.AppHeading" xml:space="preserve">
+    <value>Anwendung</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.AppLabel" xml:space="preserve">
+    <value>Anwendung</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.AppDescription" xml:space="preserve">
+    <value>Aufgelistet sind Apps, die gerade Audio ausgeben. Für eine App, die noch nicht läuft, den Prozessnamen eingeben (z. B. discord oder spotify).</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.AppPlaceholder" xml:space="preserve">
+    <value>Anwendung auswählen</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.LayoutHeading" xml:space="preserve">
+    <value>Darstellung</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.Orientation" xml:space="preserve">
+    <value>Ausrichtung</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.Vertical" xml:space="preserve">
+    <value>Vertikal</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.Horizontal" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.Interaction" xml:space="preserve">
+    <value>Touch-Verhalten</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.InteractionDescription" xml:space="preserve">
+    <value>Absolut springt dorthin, wo du tippst. Relativ verändert die Lautstärke um die gezogene Strecke, so gibt es beim Antippen keinen Sprung.</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.Absolute" xml:space="preserve">
+    <value>Absolut</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.Relative" xml:space="preserve">
+    <value>Relativ</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.ShowName" xml:space="preserve">
+    <value>App-Namen anzeigen</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.ShowValue" xml:space="preserve">
+    <value>Lautstärke anzeigen</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.MuteHint" xml:space="preserve">
+    <value>Tipp: Doppeltippen auf den Regler schaltet die App stumm bzw. wieder laut.</value>
+  </data>
+</root>

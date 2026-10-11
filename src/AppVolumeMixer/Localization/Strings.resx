@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Widgets.AppVolume.Name" xml:space="preserve">
+    <value>App Volume</value>
+  </data>
+  <data name="Widgets.AppVolume.Description" xml:space="preserve">
+    <value>A slider that controls one application's volume in the Windows Volume Mixer.</value>
+  </data>
+  <data name="Widgets.AppVolume.SampleLabel" xml:space="preserve">
+    <value>Music</value>
+  </data>
+  <data name="Widgets.AppVolume.SystemSounds" xml:space="preserve">
+    <value>System sounds</value>
+  </data>
+  <data name="Widgets.AppVolume.NotRunning" xml:space="preserve">
+    <value>Not running</value>
+  </data>
+  <data name="Widgets.AppVolume.Muted" xml:space="preserve">
+    <value>Muted</value>
+  </data>
+  <data name="Widgets.AppVolume.PickApp" xml:space="preserve">
+    <value>Pick an app</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.AppHeading" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.AppLabel" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.AppDescription" xml:space="preserve">
+    <value>Apps currently playing audio are listed. To bind an app that isn't running yet, type its process name (e.g. discord or spotify).</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.AppPlaceholder" xml:space="preserve">
+    <value>Select an application</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.LayoutHeading" xml:space="preserve">
+    <value>Layout</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.Orientation" xml:space="preserve">
+    <value>Orientation</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.Vertical" xml:space="preserve">
+    <value>Vertical</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.Horizontal" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.Interaction" xml:space="preserve">
+    <value>Touch behaviour</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.InteractionDescription" xml:space="preserve">
+    <value>Absolute jumps to where you touch. Relative moves the volume by how far you drag, so a tap never causes a sudden jump.</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.Absolute" xml:space="preserve">
+    <value>Absolute</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.Relative" xml:space="preserve">
+    <value>Relative</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.ShowName" xml:space="preserve">
+    <value>Show app name</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.ShowValue" xml:space="preserve">
+    <value>Show volume</value>
+  </data>
+  <data name="Widgets.AppVolume.Config.MuteHint" xml:space="preserve">
+    <value>Tip: double-tap the slider to mute or unmute the app.</value>
+  </data>
+</root>
