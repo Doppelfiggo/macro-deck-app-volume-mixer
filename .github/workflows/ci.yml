@@ -33,7 +33,7 @@ jobs:
       - name: Install the plugin CLI
         shell: pwsh
         run: |
-          dotnet tool install --global MacroDeck.Plugin.Cli --prerelease
+          dotnet tool install --global MacroDeck.Plugin.Cli --version 3.0.0-beta.16
           Join-Path $HOME '.dotnet' 'tools' | Out-File -FilePath $env:GITHUB_PATH -Append
 
       - name: Pack and validate

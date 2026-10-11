@@ -17,5 +17,7 @@ jobs:
       version: ${{ github.event.release.tag_name }}
       source: src/AppVolumeMixer
       changelog: ${{ github.event.release.body }}
+      # The workflow's default CLI is older than the minimum the Creator Portal accepts.
+      cli-version: 3.0.0-beta.16
       upload-artifact: true
       artifact-retention-days: 14
