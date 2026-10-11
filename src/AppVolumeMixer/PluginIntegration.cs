@@ -21,6 +21,7 @@ public sealed class PluginIntegration : IPluginIntegration, IWidgetTypeProvider,
 	// Persisted in every placed widget as "<plugin id>::app-volume" - never rename.
 	private const string WidgetLocalId = "app-volume";
 	private const string QualifiedWidgetTypeId = "com.yanick.app-volume-mixer::" + WidgetLocalId;
+	private static readonly TimeSpan RegistrationTimeout = TimeSpan.FromSeconds(5);
 
 	private readonly ILogger _logger;
 	private readonly AudioMixer _mixer;
@@ -59,9 +60,29 @@ public sealed class PluginIntegration : IPluginIntegration, IWidgetTypeProvider,
 
 	public async Task InitializeAsync(IWidgetTypeProviderContext context, CancellationToken cancellationToken = default)
 	{
-		var registration = await context.RegisterWidgetTypeAsync(Descriptor(), cancellationToken).ConfigureAwait(false);
-		_widgetTypeId = registration.WidgetTypeId;
-		_logger.Information("Registered widget type {WidgetType}", _widgetTypeId);
+		// The SDK runs this inside its integration lifecycle gate, which shutdown also waits on, and hands
+		// it no token. A host that closes the connection mid-handshake never answers the registration, so
+		// without a bound of our own the plugin could not shut down until the protocol timeout. The type is
+		// registered again on every (re)connect, so giving up here only delays it to the next one.
+		using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+		timeout.CancelAfter(RegistrationTimeout);
+
+		try
+		{
+			var registration = await context.RegisterWidgetTypeAsync(Descriptor(), timeout.Token).ConfigureAwait(false);
+
+			if (!string.IsNullOrEmpty(registration.WidgetTypeId))
+			{
+				_widgetTypeId = registration.WidgetTypeId;
+			}
+
+			_logger.Information("Registered widget type {WidgetType}", _widgetTypeId ?? QualifiedWidgetTypeId);
+		}
+		catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
+		{
+			_logger.Warning("The host did not confirm the widget type within {Timeout}; it is registered again on the next connect",
+				RegistrationTimeout);
+		}
 	}
 
 	public IReadOnlyList<WidgetTypeDescriptor> GetWidgetTypes() => [Descriptor()];
