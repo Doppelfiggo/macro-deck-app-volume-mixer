@@ -42,7 +42,7 @@ public sealed class AppVolumeEntry
 /// applies queued volume changes immediately and polls every audio session on every active playback device
 /// twice a second, so changes made in Windows (or by the app itself) show up on the deck too.
 /// </summary>
-public sealed class AudioMixer : IDisposable
+public sealed class AudioMixer
 {
 	public const string SystemSoundsKey = "@system";
 
@@ -56,14 +56,16 @@ public sealed class AudioMixer : IDisposable
 	private readonly ConcurrentDictionary<string, AppVolumeEntry> _entries = new(StringComparer.Ordinal);
 	private readonly ConcurrentDictionary<string, double> _pendingVolume = new(StringComparer.Ordinal);
 	private readonly ConcurrentDictionary<string, bool> _pendingMute = new(StringComparer.Ordinal);
+	// Never disposed: COM callbacks and a stopping audio thread may still signal it during shutdown, and a
+	// disposed handle would turn that into an ObjectDisposedException that crashes the process.
 	private readonly AutoResetEvent _wake = new(false);
 	private readonly Lock _lifecycle = new();
 
 	private volatile IReadOnlyList<AudioApp> _apps = [];
 	private volatile IReadOnlyDictionary<string, Aggregate> _lastAggregate = new Dictionary<string, Aggregate>();
 	private volatile bool _forcePoll;
-	private volatile bool _stopping;
 	private Thread? _thread;
+	private CancellationTokenSource? _run;
 
 	public AudioMixer(ILogger logger) => _logger = logger.ForContext<AudioMixer>();
 
@@ -85,22 +87,34 @@ public sealed class AudioMixer : IDisposable
 	public static string PrettyName(string key)
 		=> key.Length == 0 ? key : char.ToUpperInvariant(key[0]) + key[1..];
 
+	/// <summary>Starts the audio thread. Idempotent: the SDK initializes the integration again on every
+	/// reconnect.</summary>
 	public void Start()
 	{
 		lock (_lifecycle)
 		{
-			if (_thread is { IsAlive: true })
+			if (_thread is { IsAlive: true } && _run is { IsCancellationRequested: false })
 			{
 				return;
 			}
 
-			_stopping = false;
-			_thread = new Thread(Run) { IsBackground = true, Name = "AppVolumeMixer.CoreAudio" };
+			// A previous thread that was asked to stop but has not finished yet must not overlap the new
+			// one: they share the session list.
+			if (_thread is { IsAlive: true } previous && previous != Thread.CurrentThread)
+			{
+				previous.Join(TimeSpan.FromSeconds(2));
+			}
+
+			var run = new CancellationTokenSource();
+			_run = run;
+			_thread = new Thread(() => Run(run.Token)) { IsBackground = true, Name = "AppVolumeMixer.CoreAudio" };
 			_thread.SetApartmentState(ApartmentState.MTA);
 			_thread.Start();
 		}
 	}
 
+	/// <summary>Stops the audio thread. Idempotent, never throws, and waits at most two seconds: the thread
+	/// is a background thread, so even a stuck COM call cannot keep the process alive.</summary>
 	public void Stop()
 	{
 		Thread? thread;
@@ -109,17 +123,32 @@ public sealed class AudioMixer : IDisposable
 		{
 			thread = _thread;
 			_thread = null;
-			_stopping = true;
+
+			try
+			{
+				_run?.Cancel();
+			}
+			catch (ObjectDisposedException)
+			{
+				// Already stopped.
+			}
+
+			_run = null;
 		}
 
-		_wake.Set();
-		thread?.Join(TimeSpan.FromSeconds(3));
-	}
+		try
+		{
+			_wake.Set();
 
-	public void Dispose()
-	{
-		Stop();
-		_wake.Dispose();
+			if (thread is not null && thread != Thread.CurrentThread)
+			{
+				thread.Join(TimeSpan.FromSeconds(2));
+			}
+		}
+		catch (Exception e) when (e is ObjectDisposedException or ThreadStateException or ThreadInterruptedException)
+		{
+			// Shutting down anyway.
+		}
 	}
 
 	/// <summary>The shared live state for one app; created on first use.</summary>
@@ -201,7 +230,20 @@ public sealed class AudioMixer : IDisposable
 	private long _lastErrorLog;
 	private string? _lastSummary;
 
-	private void Run()
+	private void Run(CancellationToken stop)
+	{
+		// The outermost guard: an exception escaping a thread terminates the whole plugin process.
+		try
+		{
+			RunLoop(stop);
+		}
+		catch (Exception e)
+		{
+			LogThrottled(e, "The audio thread stopped unexpectedly");
+		}
+	}
+
+	private void RunLoop(CancellationToken stop)
 	{
 		try
 		{
@@ -216,7 +258,9 @@ public sealed class AudioMixer : IDisposable
 		_logger.Information("Audio thread started");
 		long nextPoll = 0;
 
-		while (!_stopping)
+		WaitHandle[] waitHandles = [_wake, stop.WaitHandle];
+
+		while (!stop.IsCancellationRequested)
 		{
 			try
 			{
@@ -238,10 +282,18 @@ public sealed class AudioMixer : IDisposable
 			}
 
 			var wait = Math.Clamp(nextPoll - Environment.TickCount64, 0, PollIntervalMs);
-			_wake.WaitOne((int)wait);
+			WaitHandle.WaitAny(waitHandles, (int)wait);
 		}
 
-		Cleanup();
+		try
+		{
+			Cleanup();
+		}
+		catch (Exception e)
+		{
+			LogThrottled(e, "Releasing the audio sessions failed");
+		}
+
 		_logger.Information("Audio thread stopped");
 	}
 

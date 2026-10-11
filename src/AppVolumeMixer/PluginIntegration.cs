@@ -16,7 +16,7 @@ namespace AppVolumeMixer;
 /// Registers the "App Volume" widget type: a slider tile bound to one application in the Windows Volume
 /// Mixer. Dragging it sets that app's volume; changes made in Windows show up on the tile.
 /// </summary>
-public sealed class PluginIntegration : IPluginIntegration, IWidgetTypeProvider, IUiProvider, IDisposable
+public sealed class PluginIntegration : IPluginIntegration, IWidgetTypeProvider, IUiProvider
 {
 	// Persisted in every placed widget as "<plugin id>::app-volume" - never rename.
 	private const string WidgetLocalId = "app-volume";
@@ -56,8 +56,6 @@ public sealed class PluginIntegration : IPluginIntegration, IWidgetTypeProvider,
 		_mixer.Stop();
 		return Task.CompletedTask;
 	}
-
-	public void Dispose() => _mixer.Dispose();
 
 	public async Task InitializeAsync(IWidgetTypeProviderContext context, CancellationToken cancellationToken = default)
 	{

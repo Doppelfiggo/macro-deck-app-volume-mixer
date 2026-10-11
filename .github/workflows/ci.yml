@@ -46,6 +46,23 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           "ARTIFACT=$($artifact.FullName)" | Out-File -FilePath $env:GITHUB_ENV -Append
 
+      # The same suite the Store's release workflow runs on its stub host. win-x64 only runs on Windows.
+      - name: Conformance suite
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $report = Join-Path $env:RUNNER_TEMP 'conformance.json'
+          macrodeck-plugin test --artifact $env:ARTIFACT --report json --output $report
+          $code = $LASTEXITCODE
+          $r = Get-Content $report -Raw | ConvertFrom-Json
+          "Conformant: $($r.conformant) - passed $($r.passed), failed $($r.failed), skipped $($r.skipped)"
+          foreach ($c in $r.results) {
+            if ($c.result.outcome -eq 'failed') {
+              "::error title=$($c.id) $($c.requirement)::$($c.title) | expected: $($c.result.expected) | actual: $($c.result.actual)"
+            }
+          }
+          if (-not $r.conformant -or $code -ne 0) { exit 1 }
+
       - name: Upload package
         uses: actions/upload-artifact@v7
         with:
