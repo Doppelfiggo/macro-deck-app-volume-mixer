@@ -2,7 +2,7 @@
   "$schema": "https://schemas.macro-deck.app/plugin-manifest-v1.schema.json",
   "manifestVersion": 1,
   "id": "com.yanick.app-volume-mixer",
-  "name": "App Volume Mixer",
+  "name": "Windows Volume Mixer Controls",
   "version": "1.0.6",
   "description": "Slider widgets that control the volume of individual applications in the Windows Volume Mixer - chat, music and game audio at your fingertips.",
   "icon": "Assets/icon.svg",

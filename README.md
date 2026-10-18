@@ -1,4 +1,4 @@
-# App Volume Mixer – Macro Deck 3 plugin
+# Windows Volume Mixer Controls – Macro Deck 3 plugin
 
 Adds an **App Volume** widget to Macro Deck 3: a slider tile bound to one application in the
 Windows Volume Mixer (Discord, Spotify, your game, a browser, system sounds …).
@@ -36,7 +36,7 @@ macrodeck-plugin build --output ..\..\artifacts
 
 ## Install
 
-**From the Macro Deck Store** (once published): Macro Deck → **Store** → search *App Volume Mixer*.
+**From the Macro Deck Store** (once published): Macro Deck → **Store** → search *Windows Volume Mixer Controls*.
 
 **From a file:** download the `.macroDeckPlugin` from the [Releases](../../releases) page (or build it
 yourself), then Macro Deck → **Integrations** → **Add** → **Install from file…**. A self-built package is

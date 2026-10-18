@@ -48,7 +48,7 @@ public sealed class PluginIntegration : IPluginIntegration, IWidgetTypeProvider,
 	public Task InitializeAsync(IIntegrationContext context)
 	{
 		_mixer.Start();
-		_logger.Information("App Volume Mixer initialized");
+		_logger.Information("Windows Volume Mixer Controls initialized");
 		return Task.CompletedTask;
 	}
 

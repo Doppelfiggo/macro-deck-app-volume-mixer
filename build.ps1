@@ -1,4 +1,4 @@
-# Builds the App Volume Mixer plugin into artifacts\*.macroDeckPlugin
+# Builds the Windows Volume Mixer Controls plugin into artifacts\*.macroDeckPlugin
 # Usage (PowerShell):  .\build.ps1
 $ErrorActionPreference = 'Stop'
 $cliVersion = '3.0.0-beta.16'
