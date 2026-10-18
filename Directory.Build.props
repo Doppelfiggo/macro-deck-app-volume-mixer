@@ -4,6 +4,6 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <LangVersion>latest</LangVersion>
         <!-- One knob for every Macro Deck package. Override with: dotnet build -p:MacroDeckSdkVersion=<version> -->
-        <MacroDeckSdkVersion Condition="'$(MacroDeckSdkVersion)' == ''">3.0.0-beta.16</MacroDeckSdkVersion>
+        <MacroDeckSdkVersion Condition="'$(MacroDeckSdkVersion)' == ''">3.0.0-beta.17</MacroDeckSdkVersion>
     </PropertyGroup>
 </Project>

@@ -29,7 +29,7 @@ This installs the `macrodeck-plugin` CLI if needed, builds, packs and validates
 Manual equivalent:
 
 ```powershell
-dotnet tool install --global MacroDeck.Plugin.Cli --version 3.0.0-beta.16
+dotnet tool install --global MacroDeck.Plugin.Cli --version 3.0.0-beta.17
 cd src\AppVolumeMixer
 macrodeck-plugin build --output ..\..\artifacts
 ```
